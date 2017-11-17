@@ -20,6 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -48,7 +49,8 @@ public class IndexControllerTest {
         mockMvc.perform( get("/"))
                 //Its gonna assert 200 status from our controller
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(view().name("index"))
+                .andExpect(model().attributeExists("recipes"));
     }
 
     @Test
@@ -76,5 +78,4 @@ public class IndexControllerTest {
         Set <Recipe> setInController = argumentCaptor.getValue();
         assertEquals(2, setInController.size());
     }
-
 }
