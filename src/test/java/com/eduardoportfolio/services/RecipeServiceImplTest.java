@@ -38,6 +38,7 @@ public class RecipeServiceImplTest {
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
+
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
         Recipe recipeReturned = recipeService.findById(1L);
