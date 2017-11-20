@@ -1,10 +1,14 @@
 package com.eduardoportfolio.services;
 
+import com.eduardoportfolio.commands.RecipeCommand;
+import com.eduardoportfolio.converters.RecipeCommandToRecipe;
+import com.eduardoportfolio.converters.RecipeToRecipeCommand;
 import com.eduardoportfolio.models.Recipe;
 import com.eduardoportfolio.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -17,14 +21,19 @@ import java.util.Set;
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
+    private final RecipeToRecipeCommand recipeToRecipeCommand;
+    private final RecipeCommandToRecipe recipeCommandToRecipe;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeRepository recipeRepository, RecipeToRecipeCommand recipeToRecipeCommand,
+                             RecipeCommandToRecipe recipeCommandToRecipe) {
         this.recipeRepository = recipeRepository;
+        this.recipeToRecipeCommand = recipeToRecipeCommand;
+        this.recipeCommandToRecipe = recipeCommandToRecipe;
     }
 
     @Override
     public Set<Recipe> getRecipes() {
-        log.debug("We are in the service");
+        log.debug("RecipeServiceImpl getRecipes");
 
         Set<Recipe> recipeSet = new HashSet<>();
         recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
@@ -33,7 +42,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe findById(Long id) {
-        log.debug("RecipeRepository findById");
+        log.debug("RecipeServiceImpl findById");
 
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
@@ -42,5 +51,15 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         return recipeOptional.get();
+    }
+
+    @Transactional
+    @Override
+    public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+        Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
+
+        Recipe savedRecipe = recipeRepository.save(detachedRecipe);
+        log.debug("Saved RecipeID: "+savedRecipe.getId());
+        return recipeToRecipeCommand.convert(savedRecipe);
     }
 }
