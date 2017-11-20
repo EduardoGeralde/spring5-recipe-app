@@ -28,6 +28,10 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
     @Nullable
     @Override
     public RecipeCommand convert(Recipe recipe) {
+        if (recipe == null){
+            return null;
+        }
+
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(recipe.getId());
         recipeCommand.setServings(recipe.getServings());
