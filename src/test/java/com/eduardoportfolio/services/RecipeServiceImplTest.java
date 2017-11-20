@@ -1,5 +1,7 @@
 package com.eduardoportfolio.services;
 
+import com.eduardoportfolio.converters.RecipeCommandToRecipe;
+import com.eduardoportfolio.converters.RecipeToRecipeCommand;
 import com.eduardoportfolio.models.Recipe;
 import com.eduardoportfolio.repositories.RecipeRepository;
 import org.junit.Before;
@@ -25,11 +27,17 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
     }
 
     @Test
@@ -61,7 +69,6 @@ public class RecipeServiceImplTest {
 
         assertEquals(recipes.size(), 1);
         verify(recipeRepository, times(1)).findAll();
+        verify(recipeRepository, never()).findById(anyLong());
     }
-
-
 }
