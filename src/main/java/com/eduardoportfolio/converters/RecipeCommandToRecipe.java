@@ -1,6 +1,5 @@
 package com.eduardoportfolio.converters;
 
-import com.eduardoportfolio.commands.IngredientCommand;
 import com.eduardoportfolio.commands.RecipeCommand;
 import com.eduardoportfolio.models.Recipe;
 import lombok.Synchronized;
@@ -29,11 +28,11 @@ public class RecipeCommandToRecipe implements Converter<RecipeCommand,Recipe>{
     @Nullable
     @Override
     public Recipe convert(RecipeCommand recipeCommand) {
-        if(recipeCommand == null){
+        if (recipeCommand == null){
             return null;
         }
 
-        final Recipe recipe = new Recipe();
+        Recipe recipe = new Recipe();
         recipe.setId(recipeCommand.getId());
         recipe.setServings(recipeCommand.getServings());
         recipe.setDescription(recipeCommand.getDescription());
