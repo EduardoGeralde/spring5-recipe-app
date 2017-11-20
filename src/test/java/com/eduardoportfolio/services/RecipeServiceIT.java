@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by Eduardo on 20/11/17.
  */
@@ -48,6 +50,9 @@ public class RecipeServiceIT {
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
 
         //then
-        
+        assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getDescription());
+        assertEquals(testRecipe.getId(), savedRecipeCommand.getId());
+        assertEquals(testRecipe.getCategories().size(), savedRecipeCommand.getCategories().size());
+        assertEquals(testRecipe.getIngredients().size(), savedRecipeCommand.getIngredients().size());
     }
 }
