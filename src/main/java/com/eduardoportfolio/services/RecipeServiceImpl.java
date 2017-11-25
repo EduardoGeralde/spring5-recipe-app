@@ -48,6 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
         if(!recipeOptional.isPresent()){
+            log.error("RecipeID Not Found: "+id);
             throw new RuntimeException("Recipe Not Found");
         }
 
