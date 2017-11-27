@@ -42,15 +42,18 @@ public class RecipeServiceImplTest {
 
     @Test
     public void getRecipeByIdTest() throws Exception {
+        //given
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-
+        //Setting up Mockito
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
 
+        //when
         Recipe recipeReturned = recipeService.findById(1L);
 
+        //then
         assertNotNull("Null Recipe returned", recipeReturned);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
@@ -59,14 +62,18 @@ public class RecipeServiceImplTest {
     @Test
     public void getRecipes() throws Exception {
 
+        //given
         Recipe recipe = new Recipe();
         HashSet recipeData = new HashSet();
         recipeData.add(recipe);
 
+        //Setting up Mockito
         when(recipeService.getRecipes()).thenReturn(recipeData);
 
+        //when
         Set<Recipe> recipes = recipeService.getRecipes();
 
+        //then
         assertEquals(recipes.size(), 1);
         verify(recipeRepository, times(1)).findAll();
         verify(recipeRepository, never()).findById(anyLong());
