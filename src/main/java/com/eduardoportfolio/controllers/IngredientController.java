@@ -1,9 +1,12 @@
 package com.eduardoportfolio.controllers;
 
 import com.eduardoportfolio.commands.IngredientCommand;
+import com.eduardoportfolio.commands.RecipeCommand;
+import com.eduardoportfolio.commands.UnitOfMeasureCommand;
 import com.eduardoportfolio.services.IngredientService;
 import com.eduardoportfolio.services.RecipeService;
 import com.eduardoportfolio.services.UnitOfMeasureService;
+import com.sun.javafx.sg.prism.NGShape;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,5 +66,27 @@ public class IngredientController {
         log.debug("Saved RecipeID: "+savedCommand.getRecipeId());
         log.debug("Saved IngredientID: "+savedCommand.getId());
         return "redirect:/recipe/"+savedCommand.getRecipeId()+"/ingredient/"+savedCommand.getId()+"/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable("recipeId")Long recipeId, Model model){
+        log.debug("IngredientController newRecipe");
+
+        //Make sure we have a good id value
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
+        //todo raise exception if null
+
+        //need to return back parent id for hidden form property
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeId);
+        model.addAttribute("ingredient", ingredientCommand);
+
+        //init uom
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredients/ingredientForm";
     }
 }
