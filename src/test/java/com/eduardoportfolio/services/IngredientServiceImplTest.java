@@ -28,10 +28,8 @@ import static org.mockito.Mockito.when;
  */
 public class IngredientServiceImplTest {
 
-    private final IngredientToIngredientCommand ingredientToIngredientCommand = new IngredientToIngredientCommand(
-            new UnitOfMeasureToUnitOfMeasureCommand());
-    private final IngredientCommandToIngredient ingredientCommandToIngredient = new IngredientCommandToIngredient(
-            new UnitOfMeasureCommandToUnitOfMeasure());
+    private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     @Mock
     RecipeRepository recipeRepository;
@@ -40,6 +38,12 @@ public class IngredientServiceImplTest {
     UnitOfMeasureRepository unitOfMeasureRepository;
 
     IngredientService ingredientService;
+
+    //init converters
+    public IngredientServiceImplTest() {
+        this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
+    }
 
     @Before
     public void setUp() throws Exception {
