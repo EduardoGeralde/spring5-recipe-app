@@ -1,5 +1,6 @@
 package com.eduardoportfolio.models;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +11,7 @@ import java.math.BigDecimal;
 /**
  * Created by Eduardo on 09/11/17.
  */
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode (exclude = "recipe")
 @Entity
 public class Ingredient {
