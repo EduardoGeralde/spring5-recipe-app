@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 /**
  * Created by Eduardo on 09/11/17.
  */
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode (exclude = "recipe")
 @Entity
 public class Ingredient {
