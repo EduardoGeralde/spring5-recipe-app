@@ -24,12 +24,21 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <form th:object="${recipe}" th:action="@{/recipe/}">
+            <form method="post" th:object="${recipe}" th:action="@{/recipe/}">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="pannel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <h1 class="panel-title">Edit Recipe Information</h1>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h1 class="panel-title" th:text="${recipe.description}">Edit Recipe</h1>
+                                </div>
+                                <div class="col-md-1">
+                                    <a class="btn btn-default" href="#" th:href="@{'/recipe/'+ ${recipe.id} + '/image'}" role="button">
+                                        Change Image
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -42,7 +51,7 @@
                                 <div class="col-md-3 form-group">
                                     <label>Categories:</label>
                                 </div>
-                                <div class="col-md-9 form-group">
+                                <div class="col-md-3 form-group">
                                     <div class="radio">
                                         <label>
                                             <input type="checkbox" value=""/>
@@ -56,6 +65,11 @@
                                         </label>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <img src="../../static/images/guacamole400x400WithX.jpg"
+                                         th:src="@{/images/guacamole400x400WithX.jpg}"
+                                         width="200" height="200">
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3 form-group">
@@ -68,7 +82,13 @@
                                 </div>
                                 <div class="col-md-3 form-group">
                                     <label>Difficulty:</label>
-                                    <select class="form-control">
+                                    <select class="form-control" th:field="*{difficulty}">
+                                        <option th:each="difficultyValue : ${T(com.eduardoportfolio.models.Difficulty).values()}"
+                                        th:value="${difficultyValue.name()}"
+                                        th:text="${difficultyValue.name()}"
+                                        >Val</option>
+                                    </select>
+                                    <select class="form-control" th:remove="all">
                                         <option>Easy</option>
                                         <option>Medium</option>
                                         <option>Hard</option>
