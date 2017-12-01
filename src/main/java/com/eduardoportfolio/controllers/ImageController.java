@@ -1,5 +1,6 @@
 package com.eduardoportfolio.controllers;
 
+import com.eduardoportfolio.commands.RecipeCommand;
 import com.eduardoportfolio.services.ImageService;
 import com.eduardoportfolio.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by Eduardo on 29/11/17.
@@ -37,6 +44,27 @@ public class ImageController {
                                   @RequestParam("imagefile")MultipartFile file){
         imageService.saveImageFile(recipeId, file);
         return "redirect:/recipe/"+recipeId+"/show";
+    }
+
+    @GetMapping("recipe/{recipeId}/recipeImage")
+    public void renderImageFromDB(@PathVariable("recipeId")Long recipeId, HttpServletResponse httpServletResponse)
+            throws IOException {
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
+
+
+        if (recipeCommand.getImage() != null) {
+            byte[] byteArray = new byte[recipeCommand.getImage().length];
+
+            int i = 0;
+
+            for (Byte wrappedByte : recipeCommand.getImage()) {
+                byteArray[i++] = wrappedByte;  //auto unboxing
+            }
+
+            httpServletResponse.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(byteArray);
+            IOUtils.copy(is, httpServletResponse.getOutputStream());
+        }
     }
 }
 
