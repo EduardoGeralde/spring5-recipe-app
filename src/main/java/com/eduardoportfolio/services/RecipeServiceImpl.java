@@ -51,13 +51,13 @@ public class RecipeServiceImpl implements RecipeService {
             log.error("RecipeID Not Found: "+id);
             throw new RuntimeException("Recipe Not Found");
         }
-
         return recipeOptional.get();
     }
 
     @Transactional
     @Override
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
+        log.debug("RecipeServiceImpl saveRecipeCommand");
         Recipe detachedRecipe = recipeCommandToRecipe.convert(recipeCommand);
 
         Recipe savedRecipe = recipeRepository.save(detachedRecipe);
@@ -68,6 +68,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     @Override
     public RecipeCommand findCommandById(Long id) {
+        log.debug("RecipeServiceImpl findCommandById");
         return recipeToRecipeCommand.convert(findById(id));
     }
 
