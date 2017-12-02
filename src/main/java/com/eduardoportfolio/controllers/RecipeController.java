@@ -26,24 +26,28 @@ public class RecipeController {
 
     @GetMapping ("recipe/{id}/show")
     public String showById(@PathVariable ("id") Long id, Model model){
+        log.debug("RecipeController showById");
         model.addAttribute("recipe", recipeService.findById(id));
         return "recipe/showRecipe";
     }
 
     @GetMapping ("recipe/new")
     public String recipeForm(Model model){
+        log.debug("RecipeController recipeForm");
         model.addAttribute("recipe", new RecipeCommand());
         return "recipe/recipeForm";
     }
 
     @GetMapping ("recipe/{id}/update")
     public String updateRecipe(@PathVariable Long id, Model model){
+        log.debug("RecipeController updateRecipe");
         model.addAttribute("recipe", recipeService.findCommandById(id));
         return "recipe/recipeForm";
     }
 
     @PostMapping ("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+        log.debug("RecipeController saveOrUpdate");
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/"+ savedCommand.getId()+ "/show";
     }

@@ -35,6 +35,7 @@ public class ImageController {
 
     @GetMapping("recipe/{recipeId}/image")
     public String showUploadForm(@PathVariable("recipeId")Long recipeId, Model model){
+        log.debug("ImageController showUploadForm");
         model.addAttribute("recipe", recipeService.findCommandById(recipeId));
         return "recipe/imageUploadForm";
     }
@@ -42,6 +43,7 @@ public class ImageController {
     @PostMapping("recipe/{recipeId}/image")
     public String handleImagePost(@PathVariable ("recipeId")Long recipeId,
                                   @RequestParam("imagefile")MultipartFile file){
+        log.debug("ImageController handleImagePost");
         imageService.saveImageFile(recipeId, file);
         return "redirect:/recipe/"+recipeId+"/show";
     }
@@ -49,8 +51,8 @@ public class ImageController {
     @GetMapping("recipe/{recipeId}/recipeImage")
     public void renderImageFromDB(@PathVariable("recipeId")Long recipeId, HttpServletResponse httpServletResponse)
             throws IOException {
+        log.debug("ImageController renderImageFromDB");
         RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
-
 
         if (recipeCommand.getImage() != null) {
             byte[] byteArray = new byte[recipeCommand.getImage().length];
@@ -60,7 +62,6 @@ public class ImageController {
             for (Byte wrappedByte : recipeCommand.getImage()) {
                 byteArray[i++] = wrappedByte;  //auto unboxing
             }
-
             httpServletResponse.setContentType("image/jpeg");
             InputStream is = new ByteArrayInputStream(byteArray);
             IOUtils.copy(is, httpServletResponse.getOutputStream());
