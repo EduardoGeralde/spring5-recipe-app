@@ -2,6 +2,7 @@ package com.eduardoportfolio.services;
 
 import com.eduardoportfolio.converters.RecipeCommandToRecipe;
 import com.eduardoportfolio.converters.RecipeToRecipeCommand;
+import com.eduardoportfolio.exceptions.NotFoundException;
 import com.eduardoportfolio.models.Recipe;
 import com.eduardoportfolio.repositories.RecipeRepository;
 import org.junit.Before;
@@ -91,5 +92,17 @@ public class RecipeServiceImplTest {
 
         //then
         verify(recipeRepository, times(1)).deleteById(anyLong());
+    }
+
+    @Test (expected = NotFoundException.class)
+    public void testRecipeByIdNotFound() throws Exception {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        Recipe recipeReturned = recipeService.findById(1L);
+
+        //should go boom
     }
 }
