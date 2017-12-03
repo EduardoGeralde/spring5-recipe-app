@@ -3,6 +3,7 @@ package com.eduardoportfolio.services;
 import com.eduardoportfolio.commands.RecipeCommand;
 import com.eduardoportfolio.converters.RecipeCommandToRecipe;
 import com.eduardoportfolio.converters.RecipeToRecipeCommand;
+import com.eduardoportfolio.exceptions.NotFoundException;
 import com.eduardoportfolio.models.Recipe;
 import com.eduardoportfolio.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         if(!recipeOptional.isPresent()){
             log.error("RecipeID Not Found: "+id);
-            throw new RuntimeException("Recipe Not Found");
+            throw new NotFoundException("Recipe Not Found");
         }
         return recipeOptional.get();
     }
