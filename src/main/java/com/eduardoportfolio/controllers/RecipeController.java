@@ -2,16 +2,17 @@ package com.eduardoportfolio.controllers;
 
 import com.eduardoportfolio.commands.RecipeCommand;
 import com.eduardoportfolio.exceptions.NotFoundException;
-import com.eduardoportfolio.models.Difficulty;
-import com.eduardoportfolio.models.Recipe;
 import com.eduardoportfolio.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * Created by Eduardo on 15/11/17.
@@ -49,7 +50,14 @@ public class RecipeController {
     }
 
     @PostMapping ("recipe")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+            return "recipe/recipeForm";
+        }
+
         log.debug("RecipeController saveOrUpdate");
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(command);
         return "redirect:/recipe/"+ savedCommand.getId()+ "/show";
