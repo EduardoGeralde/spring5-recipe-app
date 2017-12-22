@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * Created by Eduardo on 10/11/17.
+ * Created by Eduardo on 10/11/17
  */
 @Data
 @NoArgsConstructor // default constructor is - Best Practice! Remember!
