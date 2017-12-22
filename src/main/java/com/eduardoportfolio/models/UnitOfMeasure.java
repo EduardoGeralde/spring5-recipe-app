@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 /**
- * Created by Eduardo on 09/11/17.
+ * Created by Eduardo on 09/11/17
  */
 @Data
 /*
