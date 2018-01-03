@@ -65,31 +65,31 @@ public class BootStrapMySQL implements ApplicationListener<ContextRefreshedEvent
         unitOfMeasureRepository.save(uom1);
 
         UnitOfMeasure uom2 = new UnitOfMeasure();
-        uom2.setDescription("Teaspoon");
+        uom2.setDescription("Tablespoon");
         unitOfMeasureRepository.save(uom2);
 
         UnitOfMeasure uom3 = new UnitOfMeasure();
-        uom3.setDescription("Teaspoon");
+        uom3.setDescription("Cup");
         unitOfMeasureRepository.save(uom3);
 
         UnitOfMeasure uom4 = new UnitOfMeasure();
-        uom4.setDescription("Teaspoon");
+        uom4.setDescription("Pinch");
         unitOfMeasureRepository.save(uom4);
 
         UnitOfMeasure uom5 = new UnitOfMeasure();
-        uom5.setDescription("Teaspoon");
+        uom5.setDescription("Ounce");
         unitOfMeasureRepository.save(uom5);
 
         UnitOfMeasure uom6 = new UnitOfMeasure();
-        uom6.setDescription("Teaspoon");
+        uom6.setDescription("Each");
         unitOfMeasureRepository.save(uom6);
 
         UnitOfMeasure uom7 = new UnitOfMeasure();
-        uom7.setDescription("Teaspoon");
+        uom7.setDescription("Dash");
         unitOfMeasureRepository.save(uom7);
 
         UnitOfMeasure uom8 = new UnitOfMeasure();
-        uom8.setDescription("Teaspoon");
+        uom8.setDescription("Pint");
         unitOfMeasureRepository.save(uom8);
     }
 }
